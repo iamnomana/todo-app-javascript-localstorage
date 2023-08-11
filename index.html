@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>TODO APP</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+  </head>
+  <body class="mx-8">
+    <header class="mb-8">
+      <div class="text-2xl">My Todos</div>
+    </header>
+
+    <div class="mb-8">
+      <input
+        type="text"
+        name=""
+        id="textInput"
+        class="border border-black mr-4"
+        placeholder="Type here"
+      />
+      <button id="addBtn" class="outline outline-offset-2 outline-blue-500">Add</button>
+    </div>
+
+    <table id="table" class="w-full text-sm text-left text-gray-500">
+      <thead class="text-xs uppercase bg-gray-900 text-white h-10">
+        <tr>
+          <td class="px-4 w-[200px]">Todo</td>
+          <td class="w-[50px]"></td>
+        </tr>
+      </thead>
+      <tbody></tbody>
+    </table>
+
+    <script>
+      const todos = [];
+
+      document.getElementById("addBtn").addEventListener("click", function () {
+        const todo = document.getElementById("textInput");
+
+        // Add to todos array
+        todos.push(todo.value);
+
+        // Clear input field
+        todo.value = "";
+
+        addToTable();
+      });
+
+      function addToTable() {
+        const table = document.getElementById("table").getElementsByTagName("tbody")[0];
+
+        // Loop through the table and delete all the Rows
+        while (table.firstChild) {
+          table.removeChild(table.firstChild);
+        }
+
+        // Loop through the array called "todos" and add the values on the Table
+        for (let index = 0; index < todos.length; index++) {
+          const row = table.insertRow(table.rows.length);
+          // Get the current item from the list
+          const todo = todos[index];
+
+          row.insertCell(0).innerHTML = todo;
+          row.insertCell(
+            1
+          ).innerHTML = `<button class="border w-[55px] bg-red-500 text-white" onclick="deleteTodo(${index})">Delete</button>`;
+        }
+      }
+
+      function deleteTodo(item) {
+        console.log(item);
+
+        todos.splice(item, 1);
+
+        addToTable();
+      }
+    </script>
+  </body>
+</html>
